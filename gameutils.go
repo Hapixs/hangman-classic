@@ -38,8 +38,8 @@ func UpdateGameWord(toFind string, word string, letterToCheck rune) string {
 	return word
 }
 
-func SetupGameWord(startup_word string) string {
-	size := len([]rune(startup_word))
+func SetupGameWord(startupword string) string {
+	size := len([]rune(startupword))
 	runeTableWord := make([]rune, size)
 	for i := 0; i < len(runeTableWord); i++ {
 		runeTableWord[i] = '_'
@@ -49,7 +49,7 @@ func SetupGameWord(startup_word string) string {
 		if runeTableWord[randomTableI] != '_' {
 			nbLettersToShow++
 		} else {
-			runeTableWord[randomTableI] = []rune(startup_word)[randomTableI]
+			runeTableWord[randomTableI] = []rune(startupword)[randomTableI]
 		}
 	}
 	listOfLettersGiven := make([]rune, len([]rune(runeTableWord)))
@@ -59,18 +59,8 @@ func SetupGameWord(startup_word string) string {
 		}
 	}
 	for _, letter := range listOfLettersGiven {
-		runeTableWord = []rune(UpdateGameWord(startup_word, string(runeTableWord), letter))
+		runeTableWord = []rune(UpdateGameWord(startupword, string(runeTableWord), letter))
 		AddGameUsed(letter)
 	}
 	return string(runeTableWord)
 }
-
-//func GetWordInAscii(word string) []string {
-//	asciiWord := make([]string, len([]rune(word)))
-//	for i, letter := range word {
-//		for _, asciiLetter := range GetAsciiArtFromRune(letter) {
-//			asciiWord[i] += asciiLetter
-//		}
-//	}
-//	return asciiWord
-//}

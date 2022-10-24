@@ -73,7 +73,7 @@ func GetGameSave() GameSave {
 
 func SaveGame() {
 	_, _, fileName := GetConfigItem(configSaveFile)
-	save_enc, err := json.Marshal(GetGameSave())
+	saveEnc, err := json.Marshal(GetGameSave())
 	if err != nil {
 		println("Error: JSON error")
 		return
@@ -85,7 +85,7 @@ func SaveGame() {
 		return
 	}
 
-	file.Write([]byte(EncodeStrInBase64(string(save_enc))))
+	file.Write([]byte(EncodeStrInBase64(string(saveEnc))))
 	file.Close()
 }
 

@@ -19,7 +19,7 @@ var useBetterTerminal = false
 var termApplication = tview.NewApplication()
 var termRoot = tview.NewFlex()
 
-func InitUi() {
+func InitUI() {
 	_, useBetterTerminal, _ = GetConfigItem(configBetterTerminal)
 	if useBetterTerminal {
 		err := termApplication.SetRoot(termRoot, true).Run()
@@ -34,7 +34,7 @@ func DisplayBody() {
 	if useBetterTerminal {
 		termRoot.Clear()
 		hangmanLogo := ""
-		for _, line := range BuildAsciiWord("HANGMAN") {
+		for _, line := range BuildASCIIWord("HANGMAN") {
 			hangmanLogo += line + "\n"
 		}
 		termRoot.SetDirection(tview.FlexColumn)
@@ -51,7 +51,7 @@ func DisplayBody() {
 		println(informationHeadMessages[len(informationHeadMessages)-1])
 		_, useAscii, _ := GetConfigItem(configUseAscii)
 		if useAscii {
-			for _, line := range BuildAsciiWord(GetGameWord()) {
+			for _, line := range BuildASCIIWord(GetGameWord()) {
 				println(line)
 			}
 		} else {
@@ -80,7 +80,7 @@ func DisplayLooseLogo() {
 	for _, c := range "OH SNAP !" {
 		ClearScreen()
 		gameover += string(c)
-		display := BuildAsciiWord(gameover)
+		display := BuildASCIIWord(gameover)
 		for _, line := range display {
 			println(line)
 		}
@@ -96,7 +96,7 @@ func DisplayWinLogo() {
 	for _, c := range "YOU WIN !" {
 		ClearScreen()
 		gameover += string(c)
-		display := BuildAsciiWord(gameover)
+		display := BuildASCIIWord(gameover)
 		for _, line := range display {
 			println(line)
 		}

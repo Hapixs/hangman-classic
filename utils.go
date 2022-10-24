@@ -17,10 +17,10 @@ func VowelCount(str string) int {
 	return count
 }
 
-func BuildAsciiWord(word string) []string {
+func BuildASCIIWord(word string) []string {
 	words := make([]string, 9)
 	for _, runes := range word {
-		for i, line := range GetAsciiArtFromRune(runes) {
+		for i, line := range GetASCIIArtFromRune(runes) {
 			for _, r := range line {
 				if r > 31 && r < 126 {
 					words[i] = words[i] + string(r)

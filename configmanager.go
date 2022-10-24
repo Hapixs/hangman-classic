@@ -6,7 +6,7 @@ var configItemsInt = map[ConfigKey]ConfigItemInt{
 	configMaxTries:      {10, 10},
 	configGameMode:      {NORMAL, NORMAL},
 	configHangmanHeight: {8, 8},
-	configAsciiHeight:   {9, 9},
+	configASCIIHeight:   {9, 9},
 }
 
 var configItemsBool = map[ConfigKey]ConfigItemBoolean{
@@ -19,7 +19,7 @@ var configItemsBool = map[ConfigKey]ConfigItemBoolean{
 var configItemsString = map[ConfigKey]ConfigItemString{
 	configWordsList:   {"", ""},
 	configHangmanFile: {"hangman.txt", "hangman.txt"},
-	configAsciiFile:   {"standard.txt", "standard.txt"},
+	configASCIIFile:   {"standard.txt", "standard.txt"},
 	configSaveFile:    {"save.txt", "save.txt"},
 }
 

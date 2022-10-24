@@ -18,7 +18,7 @@ func StartGame() {
 
 	InitEnvironement()
 	InitGameCache()
-	InitUi()
+	InitUI()
 
 	executions = append(executions, executionLookForAutoSave)
 	executions = append(executions, executionDisplayBody)

@@ -6,9 +6,9 @@ import (
 	"strings"
 )
 
-var hangmanByStatus map[int]([]string) = map[int]([]string){}
+var hangmanByStatus = map[int]([]string){}
 var words []string
-var asciiByChar map[rune]([]string) = map[rune]([]string){}
+var asciiByChar = map[rune]([]string){}
 
 var FromSave = false
 
@@ -42,7 +42,7 @@ func InitGameCache() {
 		hangmanByStatus[i+1] = hangmanStatContentSplited[currentMin:currentMax]
 	}
 
-	_, _, asciiFileName := GetConfigItem(configAsciiFile)
+	_, _, asciiFileName := GetConfigItem(configASCIIFile)
 
 	content, err = os.ReadFile(asciiFileName)
 	if err != nil {
@@ -52,7 +52,7 @@ func InitGameCache() {
 
 	asciiCharacterContentSplited := strings.Split(string(content), "\n")
 	for i := 0; i < 127-32; i++ {
-		asciiHeight, _, _ := GetConfigItem(configAsciiHeight)
+		asciiHeight, _, _ := GetConfigItem(configASCIIHeight)
 		currentMin := i * asciiHeight
 		currentMax := currentMin + asciiHeight
 		asciiByChar[rune(i+32)] = asciiCharacterContentSplited[currentMin:currentMax]
@@ -85,7 +85,7 @@ func GetCacheWordList() []string {
 	return words
 }
 
-func GetAsciiArtFromRune(r rune) []string {
+func GetASCIIArtFromRune(r rune) []string {
 	return asciiByChar[r]
 }
 

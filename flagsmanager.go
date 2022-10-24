@@ -15,10 +15,10 @@ var flagExecutors = map[string](CommandFlag){
 	"--loadsave":  CommandFlag{nil, "", "", true, "-sw"},
 	"--startWith": CommandFlag{nil, "", "", true, "-sw"},
 
-	"-noas":     CommandFlag{flagNoAscii, "Don't use ascii art for letters", "-noas", false, "-noas"},
+	"-noas":     CommandFlag{flagNoASCII, "Don't use ascii art for letters", "-noas", false, "-noas"},
 	"--noascii": CommandFlag{nil, "", "", true, "--noas"},
 
-	"-as":     CommandFlag{flagUseAscii, "Use ascii art for letters", "-as", false, "-as"},
+	"-as":     CommandFlag{flagUseASCII, "Use ascii art for letters", "-as", false, "-as"},
 	"--ascii": CommandFlag{nil, "", "", true, "-as"},
 
 	"-ac":         CommandFlag{flagAutoClear, "Auto clear the terminal after each actions", "-ac", false, "-ac"},
@@ -36,7 +36,7 @@ var flagExecutors = map[string](CommandFlag){
 	"-h":     CommandFlag{nil, "Display help menu", "-h", false, "-h"},
 	"--help": CommandFlag{nil, "", "", true, "-h"},
 
-	"-useascii": CommandFlag{flagUseAsciiWithBool, "Define if characters has to be displayed in ascii art", "-useascii [true/false]", false, "-useascii"},
+	"-useascii": CommandFlag{flagUseASCIIWithBool, "Define if characters has to be displayed in ascii art", "-useascii [true/false]", false, "-useascii"},
 	"-gamemode": CommandFlag{flagSetGameMode, "Define gamemode to use", "-gamemode [hard/normal]", false, "-gamemode"},
 
 	"-autosave": CommandFlag{flagAutoSave, "Auto save the game after each actions", "-autosave", false, "-autosave"},
@@ -46,7 +46,7 @@ var flagExecutors = map[string](CommandFlag){
 	"--low":  CommandFlag{flagLow, "Use pre config for low quality", "--low", false, "--low"},
 	"--high": CommandFlag{flagHigh, "Use pre config for high quality", "--high", false, "--high"},
 
-	"-asciifile": CommandFlag{flagAsciiFile, "Specify the file used for translate character to ascii art", "-asciifile <file>", false, "-asciifile"},
+	"-asciifile": CommandFlag{flagASCIIFile, "Specify the file used for translate character to ascii art", "-asciifile <file>", false, "-asciifile"},
 
 	"-usebetterterm": CommandFlag{flagUseBetterTerm, "", "", false, "-usebetterterm"},
 }
@@ -71,13 +71,13 @@ func flagStartWithExecutor(args []string) []string {
 	return args
 }
 
-func flagNoAscii(args []string) []string {
+func flagNoASCII(args []string) []string {
 	SetConfigItemValue(configUseAscii, false)
 	args = append(args[:0], args[1:]...)
 	return args
 }
 
-func flagUseAscii(args []string) []string {
+func flagUseASCII(args []string) []string {
 	SetConfigItemValue(configUseAscii, true)
 	args = append(args[:0], args[1:]...)
 	return args
@@ -117,7 +117,7 @@ func flagShowHelpMessage(args []string) []string {
 	return args
 }
 
-func flagUseAsciiWithBool(args []string) []string {
+func flagUseASCIIWithBool(args []string) []string {
 	if len(args) < 1 {
 		args = append(args[:0], args[1:]...)
 		return args
@@ -180,12 +180,12 @@ func flagHigh(args []string) []string {
 	return args
 }
 
-func flagAsciiFile(args []string) []string {
+func flagASCIIFile(args []string) []string {
 	if len(args) <= 1 {
 		println("[Warn] Please specify a file after -asciifile (using standard.txt instead)!")
 		args = append(args[:0], args[1:]...)
 	} else {
-		SetConfigItemValue(configAsciiFile, args[1])
+		SetConfigItemValue(configASCIIFile, args[1])
 		args = append(args[:0], args[2:]...)
 	}
 	return args
