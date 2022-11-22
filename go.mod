@@ -1,3 +1,3 @@
-module hangman_classic
+module hangmanclassic
 
 go 1.19
