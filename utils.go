@@ -1,8 +1,37 @@
-package hangman
+package hangman_classic
 
 import (
+	"crypto/sha256"
+	"encoding/base64"
+	"encoding/json"
+	"math/rand"
+	"os"
 	"strings"
 )
+
+func GetRandomWord(liste []string) string {
+	return liste[rand.Intn(len(liste))]
+}
+
+func HasOccurenceLetter(word string, letterToCheck rune) bool {
+	for _, letter := range word {
+		if letter == letterToCheck {
+			return true
+		}
+	}
+	return false
+}
+
+func GetOccurenceLetter(word string, letterToCheck rune) []int {
+	var occ []int
+	wordR := []rune(word)
+	for i, letter := range wordR {
+		if letter == letterToCheck {
+			occ = append(occ, i)
+		}
+	}
+	return occ
+}
 
 func isVowel(r rune) bool {
 	return strings.ContainsRune("aeiouy", r)
@@ -17,10 +46,10 @@ func VowelCount(str string) int {
 	return count
 }
 
-func BuildASCIIWord(word string) []string {
+func (c *Gamecache) BuildASCIIWord(word string) []string {
 	words := make([]string, 9)
 	for _, runes := range word {
-		for i, line := range GetASCIIArtFromRune(runes) {
+		for i, line := range c.AsciiByChar[runes] {
 			for _, r := range line {
 				if r > 31 && r < 126 {
 					words[i] = words[i] + string(r)
@@ -76,4 +105,45 @@ func ConvertToUnicode(s string) string {
 		}
 	}
 	return newWord
+}
+
+func EncodeStrInBase64(str string) string {
+	return base64.StdEncoding.EncodeToString([]byte(str))
+}
+
+func DecodeStrInBase64(str string) string {
+	decoded, _ := base64.StdEncoding.DecodeString(str)
+	return string(decoded)
+}
+
+func GetEncodedStringInSha256(str string) []byte {
+	h := sha256.New()
+	h.Write([]byte(str))
+	return h.Sum([]byte{})
+}
+
+func LoadSave(fileName string) (HangmanGame, error) {
+	content, err := os.ReadFile(fileName)
+	if err != nil {
+		println("Error: File " + fileName + " doesn't exist ! please specify a existing one.")
+		return HangmanGame{}, err
+	}
+
+	Game := HangmanGame{}
+
+	er := json.Unmarshal([]byte(DecodeStrInBase64(string(content))), &Game)
+
+	if er != nil {
+		println("Error: File " + fileName + " doesn't exist ! please specify a existing one.")
+		return HangmanGame{}, err
+	}
+
+	FromSave = true
+	return Game, nil
+}
+
+// Need to be moved
+
+func QuitGame() {
+	os.Exit(0)
 }
