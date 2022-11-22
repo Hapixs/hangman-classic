@@ -1,4 +1,4 @@
-package hangmanclassic
+package main
 
 import (
 	"encoding/json"

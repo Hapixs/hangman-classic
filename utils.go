@@ -1,4 +1,4 @@
-package hangmanclassic
+package main
 
 import (
 	"crypto/sha256"
