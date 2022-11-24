@@ -28,37 +28,37 @@ func (c *Gamecache) InitGameCache(game *HangmanGame) {
 
 	_, _, hangmanFileName := game.Config.GetConfigItem(ConfigHangmanFile)
 	content, err = os.ReadFile(hangmanFileName)
-	if err != nil {
-		println("Error! Unable to load hangman list '" + fileName + "'")
-		os.Exit(1)
-	}
-	hangmanStatContentSplited := strings.Split(string(content), "\n")
+	if err == nil {
+		hangmanStatContentSplited := strings.Split(string(content), "\n")
 
-	maxTries, _, _ := game.Config.GetConfigItem(ConfigMaxTries)
-	c.HangmanByStatus = make(map[int][]string, maxTries)
-	for i := 0; i < maxTries; i++ {
-		hangmanHeight, _, _ := game.Config.GetConfigItem(ConfigHangmanHeight)
-		currentMin := i * hangmanHeight
-		currentMax := currentMin + hangmanHeight
-		c.HangmanByStatus[i+1] = hangmanStatContentSplited[currentMin:currentMax]
+		maxTries, _, _ := game.Config.GetConfigItem(ConfigMaxTries)
+		c.HangmanByStatus = make(map[int][]string, maxTries)
+		for i := 0; i < maxTries; i++ {
+			hangmanHeight, _, _ := game.Config.GetConfigItem(ConfigHangmanHeight)
+			currentMin := i * hangmanHeight
+			currentMax := currentMin + hangmanHeight
+			c.HangmanByStatus[i+1] = hangmanStatContentSplited[currentMin:currentMax]
+		}
+	} else {
+		println("Error! Unable to load hangman list '" + fileName + "'")
 	}
 
 	_, _, asciiFileName := game.Config.GetConfigItem(ConfigASCIIFile)
 
 	content, err = os.ReadFile(asciiFileName)
 	if err != nil {
+		asciiCharacterContentSplited := strings.Split(string(content), "\n")
+		c.AsciiByChar = make(map[rune][]string)
+		for i := 0; i < 127-32; i++ {
+			asciiHeight, _, _ := game.Config.GetConfigItem(ConfigASCIIHeight)
+			currentMin := i * asciiHeight
+			currentMax := currentMin + asciiHeight
+			c.AsciiByChar[rune(i+32)] = asciiCharacterContentSplited[currentMin:currentMax]
+		}
+	} else {
 		println("Error! Unable to load ascii file '" + fileName + "'")
-		os.Exit(1)
 	}
 
-	asciiCharacterContentSplited := strings.Split(string(content), "\n")
-	c.AsciiByChar = make(map[rune][]string)
-	for i := 0; i < 127-32; i++ {
-		asciiHeight, _, _ := game.Config.GetConfigItem(ConfigASCIIHeight)
-		currentMin := i * asciiHeight
-		currentMax := currentMin + asciiHeight
-		c.AsciiByChar[rune(i+32)] = asciiCharacterContentSplited[currentMin:currentMax]
-	}
 	if !FromSave {
 		wordToFind := strings.ReplaceAll(GetRandomWord(c.Words), "\r", "")
 		wordToFind = strings.ReplaceAll(wordToFind, "\n", "")
