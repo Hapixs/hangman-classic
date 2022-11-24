@@ -1,4 +1,4 @@
-package main
+package hangmanclassic
 
 import (
 	"math/rand"
