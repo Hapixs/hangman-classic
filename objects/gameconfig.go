@@ -1,4 +1,4 @@
-package hangmanclassic
+package objects
 
 import "errors"
 
@@ -60,9 +60,9 @@ func (gc *GameConfig) InitConfig() {
 
 	gc.StringItems = map[ConfigKey]ConfigItemString{
 		ConfigWordsList:   {"", ""},
-		ConfigHangmanFile: {"hangman.txt", "hangman.txt"},
-		ConfigASCIIFile:   {"standard.txt", "standard.txt"},
-		ConfigSaveFile:    {"save.txt", "save.txt"},
+		ConfigHangmanFile: {"assets/hangman.txt", "assets/hangman.txt"},
+		ConfigASCIIFile:   {"assets/standard.txt", "assets/standard.txt"},
+		ConfigSaveFile:    {"saves/save.txt", "saves/save.txt"},
 	}
 }
 

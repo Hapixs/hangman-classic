@@ -1,4 +1,4 @@
-package hangmanclassic
+package objects
 
 import (
 	"os"
@@ -76,7 +76,7 @@ func flagStartWithExecutor(game *HangmanGame, args []string) []string {
 	if len(args) <= 1 {
 		println("[Warn] Please specify a file after --startWith !")
 	} else {
-		games, err := LoadSave(args[1])
+		games, err := LoadSave("saves/" + args[1])
 		if err != nil {
 			println("[Warn] Save file not found !")
 		}
@@ -211,31 +211,6 @@ func flagUseBetterTerm(game *HangmanGame, args []string) []string {
 	game.Config.SetConfigItemValue(ConfigBetterTerminal, true)
 	args = append(args[:0], args[1:]...)
 	return args
-}
-
-func (game *HangmanGame) GameProcessArguments(args []string) {
-	for len(args) > 0 {
-		arg := args[0]
-		if arg[0] == "-"[0] {
-			if arg == "--help" || arg == "-h" {
-				flagShowHelpMessage(game, args)
-				return
-			}
-			if val, ok := flagExecutors[arg]; ok {
-				cmdFlag := val
-				if cmdFlag.IsAliase {
-					cmdFlag = flagExecutors[cmdFlag.AliaseOf]
-				}
-				args = cmdFlag.FlagExecutor(game, args)
-			} else {
-				args = append(args[:0], args[1:]...)
-				println("Can't find argument " + arg)
-			}
-		} else {
-			game.Config.SetConfigItemValue(ConfigWordsList, arg)
-			args = append(args[:0], args[1:]...)
-		}
-	}
 }
 
 func BuildFlagHelpMenu() []string {

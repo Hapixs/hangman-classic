@@ -1,4 +1,4 @@
-package hangmanclassic
+package objects
 
 import (
 	"crypto/sha256"
@@ -6,7 +6,10 @@ import (
 	"encoding/json"
 	"math/rand"
 	"os"
+	"os/exec"
+	"runtime"
 	"strings"
+	"time"
 )
 
 func GetRandomWord(liste []string) string {
@@ -146,4 +149,19 @@ func LoadSave(fileName string) (HangmanGame, error) {
 
 func QuitGame() {
 	os.Exit(0)
+}
+func InitEnvironement() {
+	rand.Seed(time.Now().UnixMicro())
+}
+
+func ClearScreen() {
+	if runtime.GOOS == "windows" {
+		cmd := exec.Command("cmd", "/c", "cls")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	} else {
+		cmd := exec.Command("clear")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	}
 }

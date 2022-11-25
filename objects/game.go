@@ -1,4 +1,4 @@
-package hangmanclassic
+package objects
 
 import (
 	"encoding/json"
@@ -91,7 +91,6 @@ func (game *HangmanGame) processExecutionsFunc() {
 
 func (game *HangmanGame) WinGame() {
 	game.DisplayWinLogo()
-	QuitGame()
 }
 
 func (game *HangmanGame) AddGameTry() int {
@@ -148,7 +147,8 @@ func (game *HangmanGame) AddGameUsed(r rune) string {
 }
 
 func (game *HangmanGame) SaveGame() {
-	_, _, fileName := game.Config.GetConfigItem(ConfigSaveFile)
+
+	_, _, fileName := game.Config.GetConfigItem("saves/" + ConfigSaveFile)
 	saveEnc, err := json.Marshal(game)
 	if err != nil {
 		println("Error: JSON error")
@@ -273,4 +273,29 @@ func (game *HangmanGame) DisplayWinLogo() {
 	}
 
 	println("The word was " + game.GetGameToFind())
+}
+
+func (game *HangmanGame) GameProcessArguments(args []string) {
+	for len(args) > 0 {
+		arg := args[0]
+		if arg[0] == "-"[0] {
+			if arg == "--help" || arg == "-h" {
+				flagShowHelpMessage(game, args)
+				return
+			}
+			if val, ok := flagExecutors[arg]; ok {
+				cmdFlag := val
+				if cmdFlag.IsAliase {
+					cmdFlag = flagExecutors[cmdFlag.AliaseOf]
+				}
+				args = cmdFlag.FlagExecutor(game, args)
+			} else {
+				args = append(args[:0], args[1:]...)
+				println("Can't find argument " + arg)
+			}
+		} else {
+			game.Config.SetConfigItemValue(ConfigWordsList, arg)
+			args = append(args[:0], args[1:]...)
+		}
+	}
 }

@@ -1,4 +1,4 @@
-package hangmanclassic
+package objects
 
 import (
 	"os"
@@ -19,17 +19,17 @@ func (c *Gamecache) InitGameCache(game *HangmanGame) {
 		println("Please specify a word file")
 		os.Exit(1)
 	}
-	content, err := os.ReadFile(fileName)
-	if err != nil {
+	wordcontent, worderr := os.ReadFile(fileName)
+	if worderr != nil {
 		println("Error! Unable to load word list '" + fileName + "'")
 		os.Exit(1)
 	}
-	c.Words = strings.Split(string(content), "\n")
+	c.Words = strings.Split(string(wordcontent), "\n")
 
 	_, _, hangmanFileName := game.Config.GetConfigItem(ConfigHangmanFile)
-	content, err = os.ReadFile(hangmanFileName)
-	if err == nil {
-		hangmanStatContentSplited := strings.Split(string(content), "\n")
+	hangmancontent, hangmanerr := os.ReadFile(hangmanFileName)
+	if hangmanerr == nil {
+		hangmanStatContentSplited := strings.Split(string(hangmancontent), "\n")
 
 		maxTries, _, _ := game.Config.GetConfigItem(ConfigMaxTries)
 		c.HangmanByStatus = make(map[int][]string, maxTries)
@@ -44,10 +44,10 @@ func (c *Gamecache) InitGameCache(game *HangmanGame) {
 	}
 
 	_, _, asciiFileName := game.Config.GetConfigItem(ConfigASCIIFile)
-
-	content, err = os.ReadFile(asciiFileName)
-	if err != nil {
-		asciiCharacterContentSplited := strings.Split(string(content), "\n")
+	println(asciiFileName)
+	asciicontent, asciierr := os.ReadFile(asciiFileName)
+	if asciierr == nil {
+		asciiCharacterContentSplited := strings.Split(string(asciicontent), "\n")
 		c.AsciiByChar = make(map[rune][]string)
 		for i := 0; i < 127-32; i++ {
 			asciiHeight, _, _ := game.Config.GetConfigItem(ConfigASCIIHeight)
@@ -56,7 +56,7 @@ func (c *Gamecache) InitGameCache(game *HangmanGame) {
 			c.AsciiByChar[rune(i+32)] = asciiCharacterContentSplited[currentMin:currentMax]
 		}
 	} else {
-		println("Error! Unable to load ascii file '" + fileName + "'")
+		println("Error! Unable to load ascii file '" + asciiFileName + "'")
 	}
 
 	if !FromSave {

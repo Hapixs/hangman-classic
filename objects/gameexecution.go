@@ -1,4 +1,4 @@
-package hangmanclassic
+package objects
 
 import (
 	"bufio"
@@ -87,7 +87,6 @@ var executionCheckForRemainingTries = GameExecution{string(DefaultExecutionCheck
 	maxTries, _, _ := game.Config.GetConfigItem(ConfigMaxTries)
 	if game.GetGameTries() >= maxTries {
 		game.DisplayLooseLogo()
-		QuitGame()
 	}
 	return false
 }}
@@ -119,7 +118,6 @@ var executionCheckForWord = GameExecution{string(DefaultExecutionCheckForWord), 
 	if len(*userInput) > 1 {
 		if string(*userInput) == "STOP" {
 			game.SaveGame()
-			QuitGame()
 		}
 		if game.GetGameToFind() == *userInput {
 			game.WinGame()
